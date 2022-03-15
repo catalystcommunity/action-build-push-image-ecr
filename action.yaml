@@ -1,22 +1,91 @@
-name: 'Hello World' # taken from https://docs.github.com/en/actions/creating-actions/creating-a-composite-action
-description: 'Greet someone'
+name: Build and Push Image to ECR
+description: Builds and pushs an image to an AWS ECR repository
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  ecr-repository:
+    description: Name of ECR repository to push images to. Defaults to the Git repository's name.
+    required: false
+    default: ${{ github.repository }}
+  aws-access-key-id:
+    description: AWS secret key ID. Required.
     required: true
-    default: 'World'
-outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-id }}
+  aws-secret-access-key:
+    description: AWS secret access key. Required.
+    required: true
+  aws-region:
+    description: AWS region. Required.
+    required: true
+  role-to-assume:
+    description: AWS IAM role to assume.
+    required: false
+  create-missing-repositories:
+    description: Creates the ECR repository if it does not exist
+    required: false
+    default: true
+  tag-versions:
+    description: git tags to push, comma separated string such as `latest,v1.0.0`
+    required: false
+    default: latest,${{ github.event.release.tag_name }}
+  build-secrets:
+    description: docker build secrets. key=value pairs separated by newlines. See [docker build push action secrets configuration](https://github.com/docker/build-push-action/blob/master/docs/advanced/secrets.md) for details
+    required: false
+    default: ''
 runs:
   using: "composite"
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup Docker buildx
+      uses: docker/setup-buildx-action@v1
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        aws-region: ${{ inputs.aws-region }}
+        role-to-assume: ${{ inputs.role-to-assume }}
+    - if: inputs.create-missing-repositories
+      name: Create ECR Repository
+      env:
+        ECR_REPOSITORY: ${{ inputs.ecr-repository }}
+      run: |
+        OUT=$(aws ecr describe-repositories --repository-names $ECR_REPOSITORY 2>&1 || true)
+        echo "validation output: ${OUT}"
+        if [[ "${OUT}" == *"RepositoryNotFoundException"* ]]; then
+          echo "repository does not exist, creating..."
+          aws ecr create-repository --repository-name $ECR_REPOSITORY
+        fi
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    - name: Get tags
+      id: get-tags
       shell: bash
-    - id: random-number-generator
-      run: echo "::set-output name=random-id::$(echo $RANDOM)"
-      shell: bash
-    - run: ${{ github.action_path }}/goodbye.sh
-      shell: bash
-
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ inputs.ecr-repository }}
+        TAG_VERSIONS: ${{ inputs.tag-versions }}
+      run: |
+        fullTags=""
+        for version in ${TAG_VERSIONS//,/ }; do
+          # trim "v" from tag if it exists
+          if [[ $version =~ ^v[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+ ]]; then
+              trimmedVersion="${version:1}"
+              echo "modified $version to $trimmedVersion"
+              version=$trimmedVersion
+          fi
+          # build list of tags with ecr registry
+          fullTags="$ECR_REGISTRY/$ECR_REPOSITORY:$version,$fullTags"
+        done
+        fullTags=${fullTags::-1}
+        echo "will push with tags: $fullTags"
+        echo "::set-output name=tags::$fullTags"
+    - name: Build and push image to ECR
+      id: build-image
+      uses: docker/build-push-action@v2
+      with:
+        secrets: ${{ inputs.build-secrets }}
+        tags: ${{ steps.get-tags.outputs.tags }}
+        push: true
+        cache-from: type=gha,mode=max
+        cache-to: type=gha,mode=max
+        no-cache: ${{ contains(github.event.head_commit.message, 'no-cache') }}
