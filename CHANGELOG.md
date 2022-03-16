@@ -1,3 +1,10 @@
+# 1.0.0 (2022-03-16)
+
+
+### Features
+
+* initial action ([#1](https://github.com/catalystsquad/action-build-push-image-ecr/issues/1)) ([86358e6](https://github.com/catalystsquad/action-build-push-image-ecr/commit/86358e6ce3671986feaec55de92b25c92efe81e5))
+
 # 1.0.0 (2022-02-28)
 
 

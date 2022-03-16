@@ -1,11 +1,11 @@
 <!-- start title -->
 
-# GitHub Action:Hello World
+# GitHub Action:Build and Push Image to ECR
 
 <!-- end title -->
 <!-- start description -->
 
-Greet someone
+Builds and pushs an image to an AWS ECR repository
 
 <!-- end description -->
 <!-- start contents -->
@@ -13,19 +13,51 @@ Greet someone
 <!-- start usage -->
 
 ```yaml
-- uses: catalystsquad/action-composite-action-template@undefined
+- uses: catalystsquad/action-build-push-image-ecr@undefined
   with:
-    # Who to greet
-    # Default: World
-    who-to-greet: ""
+    # Name of ECR repository to push images to. Defaults to the Git repository's name.
+    # Default: ${{ github.repository }}
+    ecr-repository: ""
+
+    # AWS secret key ID. Required.
+    aws-access-key-id: ""
+
+    # AWS secret access key. Required.
+    aws-secret-access-key: ""
+
+    # AWS region. Required.
+    aws-region: ""
+
+    # AWS IAM role to assume.
+    role-to-assume: ""
+
+    # Creates the ECR repository if it does not exist
+    # Default: true
+    create-missing-repositories: ""
+
+    # git tags to push, comma separated string such as `latest,v1.0.0`
+    # Default: latest,${{ github.event.release.tag_name }}
+    tag-versions: ""
+
+    # docker build secrets. key=value pairs separated by newlines. See [docker build
+    # push action secrets configuration](https://github.com/docker/build-push-action/blob/master/docs/advanced/secrets.md) for details
+    # Default:
+    build-secrets: ""
 ```
 
 <!-- end usage -->
 <!-- start inputs -->
 
-| **Input**          | **Description** | **Default** | **Required** |
-| :----------------- | :-------------- | :---------: | :----------: |
-| **`who-to-greet`** | Who to greet    |   `World`   |   **true**   |
+| **Input**                         | **Description**                                                                                                                                                                                                 |                  **Default**                  | **Required** |
+| :-------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------: | :----------: |
+| **`ecr-repository`**              | Name of ECR repository to push images to. Defaults to the Git repository's name.                                                                                                                                |          `${{ github.repository }}`           |  **false**   |
+| **`aws-access-key-id`**           | AWS secret key ID. Required.                                                                                                                                                                                    |                                               |   **true**   |
+| **`aws-secret-access-key`**       | AWS secret access key. Required.                                                                                                                                                                                |                                               |   **true**   |
+| **`aws-region`**                  | AWS region. Required.                                                                                                                                                                                           |                                               |   **true**   |
+| **`role-to-assume`**              | AWS IAM role to assume.                                                                                                                                                                                         |                                               |  **false**   |
+| **`create-missing-repositories`** | Creates the ECR repository if it does not exist                                                                                                                                                                 |                    `true`                     |  **false**   |
+| **`tag-versions`**                | git tags to push, comma separated string such as `latest,v1.0.0`                                                                                                                                                | `latest,${{ github.event.release.tag_name }}` |  **false**   |
+| **`build-secrets`**               | docker build secrets. key=value pairs separated by newlines. See [docker build push action secrets configuration](https://github.com/docker/build-push-action/blob/master/docs/advanced/secrets.md) for details |                                               |  **false**   |
 
 <!-- end inputs -->
 <!-- start outputs -->
