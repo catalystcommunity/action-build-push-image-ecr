@@ -45,6 +45,7 @@ runs:
         role-to-assume: ${{ inputs.role-to-assume }}
     - if: inputs.create-missing-repositories
       name: Create ECR Repository
+      shell: bash
       env:
         ECR_REPOSITORY: ${{ inputs.ecr-repository }}
       run: |
