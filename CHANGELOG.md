@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/catalystsquad/action-build-push-image-ecr/compare/v1.0.1...v1.1.0) (2022-03-18)
+
+
+### Features
+
+* extra account access functionality ([#3](https://github.com/catalystsquad/action-build-push-image-ecr/issues/3)) ([f326506](https://github.com/catalystsquad/action-build-push-image-ecr/commit/f326506dbc07dd6399568c86eb5cd6643cdd9e8b))
+
 ## [1.0.1](https://github.com/catalystsquad/action-build-push-image-ecr/compare/v1.0.0...v1.0.1) (2022-03-18)
 
 

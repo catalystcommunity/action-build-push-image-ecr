@@ -46,6 +46,10 @@ Builds and pushs an image to an AWS ECR repository
     # Default: action-build-push-image-ecr
     role-session-name: ""
 
+    # List of AWS accounts to add access for
+    # Default:
+    extra-account-access: ""
+
     # git tags to push, comma separated string such as `latest,v1.0.0`
     # Default: latest,${{ github.event.release.tag_name }}
     tag-versions: ""
@@ -70,6 +74,7 @@ Builds and pushs an image to an AWS ECR repository
 | **`role-duration-seconds`**       | AWS IAM role assumption duration seconds                                                                                                                                                                        |                     `900`                     |  **false**   |
 | **`create-missing-repositories`** | Creates the ECR repository if it does not exist                                                                                                                                                                 |                    `true`                     |  **false**   |
 | **`role-session-name`**           | AWS IAM role assumption session name                                                                                                                                                                            |         `action-build-push-image-ecr`         |  **false**   |
+| **`extra-account-access`**        | List of AWS accounts to add access for                                                                                                                                                                          |                                               |  **false**   |
 | **`tag-versions`**                | git tags to push, comma separated string such as `latest,v1.0.0`                                                                                                                                                | `latest,${{ github.event.release.tag_name }}` |  **false**   |
 | **`build-secrets`**               | docker build secrets. key=value pairs separated by newlines. See [docker build push action secrets configuration](https://github.com/docker/build-push-action/blob/master/docs/advanced/secrets.md) for details |                                               |  **false**   |
 
@@ -100,7 +105,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AUTOMATION_AWS_SECRET_ACCESS_KEY }}
           role-to-assume: arn:aws:iam::000000000000:role/YourRoleHere
           aws-region: us-west-2
-          extra-account-access:  000000000000,111111111111,222222222222
+          extra-account-access: 000000000000,111111111111,222222222222
 ```
 
 <!-- end examples -->
