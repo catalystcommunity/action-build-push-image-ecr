@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/catalystsquad/action-build-push-image-ecr/compare/v1.0.0...v1.0.1) (2022-03-18)
+
+
+### Bug Fixes
+
+* Add role assumption configs as inputs with sensible defaults, ad… ([#2](https://github.com/catalystsquad/action-build-push-image-ecr/issues/2)) ([e076670](https://github.com/catalystsquad/action-build-push-image-ecr/commit/e076670ee5ff7e8c80fed0c07c86f0204c3b6e71))
+
 # 1.0.0 (2022-03-16)
 
 

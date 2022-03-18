@@ -31,9 +31,20 @@ Builds and pushs an image to an AWS ECR repository
     # AWS IAM role to assume.
     role-to-assume: ""
 
+    # AWS IAM role external id
+    role-external-id: ""
+
+    # AWS IAM role assumption duration seconds
+    # Default: 900
+    role-duration-seconds: ""
+
     # Creates the ECR repository if it does not exist
     # Default: true
     create-missing-repositories: ""
+
+    # AWS IAM role assumption session name
+    # Default: action-build-push-image-ecr
+    role-session-name: ""
 
     # git tags to push, comma separated string such as `latest,v1.0.0`
     # Default: latest,${{ github.event.release.tag_name }}
@@ -55,7 +66,10 @@ Builds and pushs an image to an AWS ECR repository
 | **`aws-secret-access-key`**       | AWS secret access key. Required.                                                                                                                                                                                |                                               |   **true**   |
 | **`aws-region`**                  | AWS region. Required.                                                                                                                                                                                           |                                               |   **true**   |
 | **`role-to-assume`**              | AWS IAM role to assume.                                                                                                                                                                                         |                                               |  **false**   |
+| **`role-external-id`**            | AWS IAM role external id                                                                                                                                                                                        |                                               |  **false**   |
+| **`role-duration-seconds`**       | AWS IAM role assumption duration seconds                                                                                                                                                                        |                     `900`                     |  **false**   |
 | **`create-missing-repositories`** | Creates the ECR repository if it does not exist                                                                                                                                                                 |                    `true`                     |  **false**   |
+| **`role-session-name`**           | AWS IAM role assumption session name                                                                                                                                                                            |         `action-build-push-image-ecr`         |  **false**   |
 | **`tag-versions`**                | git tags to push, comma separated string such as `latest,v1.0.0`                                                                                                                                                | `latest,${{ github.event.release.tag_name }}` |  **false**   |
 | **`build-secrets`**               | docker build secrets. key=value pairs separated by newlines. See [docker build push action secrets configuration](https://github.com/docker/build-push-action/blob/master/docs/advanced/secrets.md) for details |                                               |  **false**   |
 
