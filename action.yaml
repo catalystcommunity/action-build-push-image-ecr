@@ -76,7 +76,7 @@ runs:
     - if: inputs.extra-account-access != ''
       name: Add Account Access
       env:
-        ECR_REPOSITORY: hello-world
+        ECR_REPOSITORY: ${{ inputs.ecr-repository }}
         ACCOUNT_IDS: ${{ inputs.extra-account-access }}
       shell: bash
       run : |
