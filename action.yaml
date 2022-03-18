@@ -23,7 +23,7 @@ inputs:
   role-duration-seconds:
     description: AWS IAM role assumption duration seconds
     required: false
-    default: 600 # 10 minutes should be plenty for a default but also easily not exceed limits
+    default: 900
   create-missing-repositories:
     description: Creates the ECR repository if it does not exist
     required: false
