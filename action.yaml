@@ -106,6 +106,7 @@ runs:
           ]
         }
         EOF
+        echo "$policy"
         aws ecr set-repository-policy --repository-name $ECR_REPOSITORY --policy-text "$policy"
     - name: Login to Amazon ECR
       id: login-ecr
