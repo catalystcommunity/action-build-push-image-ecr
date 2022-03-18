@@ -81,9 +81,11 @@ runs:
       shell: bash
       run : |
         account_arns=""
+        echo "$ACCOUNT_IDS"
         for id in ${ACCOUNT_IDS//,/ }; do
           account_arns="arn:aws:iam::${id}:root,${account_arns}"
         done
+        echo "$account_arns"
         account_arns=${account_arns::-1}
         accounts_json=$(jq -c -n --arg a "${account_arns}" '$a | split(",")')
         IFS= read -r -d '' policy <<EOF || true
