@@ -100,6 +100,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AUTOMATION_AWS_SECRET_ACCESS_KEY }}
           role-to-assume: arn:aws:iam::000000000000:role/YourRoleHere
           aws-region: us-west-2
+          extra-account-access:  000000000000,111111111111,222222222222
 ```
 
 <!-- end examples -->
