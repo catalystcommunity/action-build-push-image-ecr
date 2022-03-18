@@ -32,7 +32,7 @@ inputs:
     description: AWS IAM role assumption session name
     required: false
     default: action-build-push-image-ecr
-  ecr-extra-account-access:
+  extra-account-access:
     description: List of AWS accounts to add access for
     required: false
     default: ''
@@ -73,7 +73,7 @@ runs:
           echo "repository does not exist, creating..."
           aws ecr create-repository --repository-name ${ECR_REPOSITORY,,}
         fi
-    - if: inputs.ecr-extra-account-access != ''
+    - if: inputs.extra-account-access != ''
       name: Add Account Access
       env:
         ECR_REPOSITORY: hello-world
