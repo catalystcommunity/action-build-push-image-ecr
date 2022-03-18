@@ -77,7 +77,7 @@ runs:
       name: Add Account Access
       env:
         ECR_REPOSITORY: hello-world
-        ACCOUNT_IDS: ${{ inputs.ecr-extra-account-access }}
+        ACCOUNT_IDS: ${{ inputs.extra-account-access }}
       shell: bash
       run : |
         account_arns=""
