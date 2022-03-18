@@ -63,11 +63,11 @@ runs:
       env:
         ECR_REPOSITORY: ${{ inputs.ecr-repository }}
       run: |
-        OUT=$(aws ecr describe-repositories --repository-names $ECR_REPOSITORY 2>&1 || true)
+        OUT=$(aws ecr describe-repositories --repository-names ${ECR_REPOSITORY,,} 2>&1 || true)
         echo "validation output: ${OUT}"
         if [[ "${OUT}" == *"RepositoryNotFoundException"* ]]; then
           echo "repository does not exist, creating..."
-          aws ecr create-repository --repository-name $ECR_REPOSITORY
+          aws ecr create-repository --repository-name ${ECR_REPOSITORY,,}
         fi
     - name: Login to Amazon ECR
       id: login-ecr
