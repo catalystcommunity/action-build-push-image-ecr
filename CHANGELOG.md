@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/catalystsquad/action-build-push-image-ecr/compare/v1.1.0...v1.1.1) (2022-03-18)
+
+
+### Bug Fixes
+
+* repo name casing in set policy cli call ([#4](https://github.com/catalystsquad/action-build-push-image-ecr/issues/4)) ([89c6e85](https://github.com/catalystsquad/action-build-push-image-ecr/commit/89c6e8597ebf18492464611d289eca8e71702a7e))
+
 # [1.1.0](https://github.com/catalystsquad/action-build-push-image-ecr/compare/v1.0.1...v1.1.0) (2022-03-18)
 
 
