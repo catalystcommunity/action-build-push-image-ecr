@@ -32,6 +32,10 @@ inputs:
     description: AWS IAM role assumption session name
     required: false
     default: action-build-push-image-ecr
+  ecr-extra-account-access:
+    description: List of AWS accounts to add access for
+    required: false
+    default: ''
   tag-versions:
     description: git tags to push, comma separated string such as `latest,v1.0.0`
     required: false
@@ -69,6 +73,40 @@ runs:
           echo "repository does not exist, creating..."
           aws ecr create-repository --repository-name ${ECR_REPOSITORY,,}
         fi
+    - if: inputs.ecr-extra-account-access != ''
+      name: Add Account Access
+      env:
+        ECR_REPOSITORY: hello-world
+        ACCOUNT_IDS: ${{ inputs.ecr-extra-account-access }}
+      shell: bash
+      run : |
+        account_arns=""
+        for id in ${ACCOUNT_IDS//,/ }; do
+          account_arns="arn:aws:iam::${id}:root,${account_arns}"
+        done
+        account_arns=${account_arns::-1}
+        accounts_json=$(jq -c -n --arg a "${account_arns}" '$a | split(",")')
+        IFS= read -r -d '' policy <<EOF || true
+        {
+          "Version": "2008-10-17",
+          "Statement": [
+            {
+              "Sid": "AllowAccounts",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": ${accounts_json}
+               },
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:BatchGetImage",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetAuthorizationToken"
+              ]
+            }
+          ]
+        }
+        EOF
+        aws ecr set-repository-policy --repository-name $ECR_REPOSITORY --policy-text "$policy"
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
