@@ -88,8 +88,8 @@ runs:
               echo "modified $version to $trimmedVersion"
               version=$trimmedVersion
           fi
-          # build list of tags with ecr registry
-          fullTags="$ECR_REGISTRY/$ECR_REPOSITORY:$version,$fullTags"
+          # build list of tags with ecr registry, use ${blah,,} to ensure lower case
+          fullTags="${ECR_REGISTRY,,}/${ECR_REPOSITORY,,}:$version,$fullTags"
         done
         fullTags=${fullTags::-1}
         echo "will push with tags: $fullTags"
