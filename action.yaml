@@ -17,10 +17,21 @@ inputs:
   role-to-assume:
     description: AWS IAM role to assume.
     required: false
+  role-external-id:
+    description: AWS IAM role external id
+    required: false
+  role-duration-seconds:
+    description: AWS IAM role assumption duration seconds
+    required: false
+    default: 900
   create-missing-repositories:
     description: Creates the ECR repository if it does not exist
     required: false
     default: true
+  role-session-name:
+    description: AWS IAM role assumption session name
+    required: false
+    default: action-build-push-image-ecr
   tag-versions:
     description: git tags to push, comma separated string such as `latest,v1.0.0`
     required: false
@@ -43,17 +54,20 @@ runs:
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
         aws-region: ${{ inputs.aws-region }}
         role-to-assume: ${{ inputs.role-to-assume }}
+        role-external-id: ${{ inputs.role-external-id }}
+        role-duration-seconds: ${{ inputs.role-duration-seconds }}
+        role-session-name: ${{ inputs.role-session-name }}
     - if: inputs.create-missing-repositories
       name: Create ECR Repository
       shell: bash
       env:
         ECR_REPOSITORY: ${{ inputs.ecr-repository }}
       run: |
-        OUT=$(aws ecr describe-repositories --repository-names $ECR_REPOSITORY 2>&1 || true)
+        OUT=$(aws ecr describe-repositories --repository-names ${ECR_REPOSITORY,,} 2>&1 || true)
         echo "validation output: ${OUT}"
         if [[ "${OUT}" == *"RepositoryNotFoundException"* ]]; then
           echo "repository does not exist, creating..."
-          aws ecr create-repository --repository-name $ECR_REPOSITORY
+          aws ecr create-repository --repository-name ${ECR_REPOSITORY,,}
         fi
     - name: Login to Amazon ECR
       id: login-ecr
@@ -74,8 +88,8 @@ runs:
               echo "modified $version to $trimmedVersion"
               version=$trimmedVersion
           fi
-          # build list of tags with ecr registry
-          fullTags="$ECR_REGISTRY/$ECR_REPOSITORY:$version,$fullTags"
+          # build list of tags with ecr registry, use ${blah,,} to ensure lower case
+          fullTags="${ECR_REGISTRY,,}/${ECR_REPOSITORY,,}:$version,$fullTags"
         done
         fullTags=${fullTags::-1}
         echo "will push with tags: $fullTags"
