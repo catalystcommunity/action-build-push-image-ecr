@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/catalystsquad/action-build-push-image-ecr/compare/v1.1.1...v1.2.0) (2022-06-22)
+
+
+### Bug Fixes
+
+* test if actions will allow secrets for PRs from the org ([#6](https://github.com/catalystsquad/action-build-push-image-ecr/issues/6)) ([26a82cd](https://github.com/catalystsquad/action-build-push-image-ecr/commit/26a82cd390ff573504f4782f3199a67434e3d7db))
+
+
+### Features
+
+* add dockerfile inputs ([#5](https://github.com/catalystsquad/action-build-push-image-ecr/issues/5)) ([01cf7f9](https://github.com/catalystsquad/action-build-push-image-ecr/commit/01cf7f93309007cfa43b52eaf821bd8a8437de26))
+
 ## [1.1.1](https://github.com/catalystsquad/action-build-push-image-ecr/compare/v1.1.0...v1.1.1) (2022-03-18)
 
 
