@@ -45,9 +45,9 @@ inputs:
     required: false
     default: ''
   docker-context:
-    description: docker context. Passed to [docker build push action context input](https://github.com/docker/build-push-action#inputs)
+    description: docker context. Passed to [docker build push action context input](https://github.com/docker/build-push-action#inputs). It should be relative to the root of the commit that triggered the action
     required: false
-    default: ''
+    default: './'
   docker-file:
     description: path to docker file relative to docker-context. Passed to [docker build push action file input](https://github.com/docker/build-push-action#inputs)
     required: false
