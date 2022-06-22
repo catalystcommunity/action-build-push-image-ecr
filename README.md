@@ -59,8 +59,9 @@ Builds and pushs an image to an AWS ECR repository
     # Default:
     build-secrets: ""
 
-    # docker context. Passed to [docker build push action context input](https://github.com/docker/build-push-action#inputs)
-    # Default: [Git context](https://github.com/docker/build-push-action#git-context)
+    # docker context. Passed to [docker build push action context input](https://github.com/docker/build-push-action#inputs).
+    # It should be relative to the root of the commit that triggered the action
+    # Default: ./
     docker-context: ""
 
     # path to docker file relative to docker-context. Passed to [docker build push action file input](https://github.com/docker/build-push-action#inputs)
@@ -85,7 +86,7 @@ Builds and pushs an image to an AWS ECR repository
 | **`extra-account-access`**        | List of AWS accounts to add access for                                                                                                                                                                          |                                               |  **false**   |
 | **`tag-versions`**                | git tags to push, comma separated string such as `latest,v1.0.0`                                                                                                                                                | `latest,${{ github.event.release.tag_name }}` |  **false**   |
 | **`build-secrets`**               | docker build secrets. key=value pairs separated by newlines. See [docker build push action secrets configuration](https://github.com/docker/build-push-action/blob/master/docs/advanced/secrets.md) for details |                                               |  **false**   |
-| **`docker-context`**              | docker context. Passed to [docker build push action context input](https://github.com/docker/build-push-action#inputs) | [Git context](https://github.com/docker/build-push-action#git-context) | **false** |
+| **`docker-context`**              | docker context. Passed to [docker build push action context input](https://github.com/docker/build-push-action#inputs). It should be relative to the root of the commit that triggered the action | `./` | **false** |
 | **`docker-file`**                 | path to docker file relative to docker-context. Passed to [docker build push action file input](https://github.com/docker/build-push-action#inputs) | `Dockerfile` | **false** |
 
 <!-- end inputs -->
