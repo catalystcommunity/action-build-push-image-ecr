@@ -49,9 +49,9 @@ inputs:
     required: false
     default: ''
   docker-file:
-    description: path to docker file. Passed to [docker build push action file input](https://github.com/docker/build-push-action#inputs)
+    description: path to docker file relative to docker-context. Passed to [docker build push action file input](https://github.com/docker/build-push-action#inputs)
     required: false
-    default: ''
+    default: Dockerfile
 runs:
   using: "composite"
   steps:
