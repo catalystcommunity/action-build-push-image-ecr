@@ -1,0 +1,17 @@
+{
+  "paths": {
+    "action": "/home/runner/work/action-build-push-image-ecr/action-build-push-image-ecr/action.yaml",
+    "readme": "README.md"
+  },
+  "show_logo": "",
+  "pretty": "true",
+  "versioning": {
+    "enabled": "true",
+    "override": "",
+    "prefix": "v",
+    "branch": "main"
+  },
+  "title_prefix": "GitHub Action:",
+  "owner": "catalystsquad",
+  "repo": "action-build-push-image-ecr"
+}
