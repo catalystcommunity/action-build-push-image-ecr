@@ -8,6 +8,10 @@ inputs:
   aws-access-key-id:
     description: AWS secret key ID. Required.
     required: true
+  role-skip-session-tagging:
+    description: Skip AWS session tagging for the role assumption step
+    require: false
+    default: false
   aws-secret-access-key:
     description: AWS secret access key. Required.
     required: true
@@ -56,11 +60,11 @@ runs:
   using: "composite"
   steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Setup Docker buildx
-      uses: docker/setup-buildx-action@v1
+      uses: docker/setup-buildx-action@v2
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v2
       with:
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
@@ -69,6 +73,7 @@ runs:
         role-external-id: ${{ inputs.role-external-id }}
         role-duration-seconds: ${{ inputs.role-duration-seconds }}
         role-session-name: ${{ inputs.role-session-name }}
+        role-skip-session-tagging: ${{ inputs.role-skip-session-tagging }}
     - if: inputs.create-missing-repositories
       name: Create ECR Repository
       shell: bash
