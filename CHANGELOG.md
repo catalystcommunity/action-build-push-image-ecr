@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/catalystsquad/action-build-push-image-ecr/compare/v1.2.0...v1.2.1) (2023-05-19)
+
+
+### Bug Fixes
+
+* update checkout action and aws creds action ([#8](https://github.com/catalystsquad/action-build-push-image-ecr/issues/8)) ([3034a5a](https://github.com/catalystsquad/action-build-push-image-ecr/commit/3034a5a73d72f8671e2aaa66d150bd2d6a020d54))
+
 # [1.2.0](https://github.com/catalystsquad/action-build-push-image-ecr/compare/v1.1.1...v1.2.0) (2022-06-22)
 
 
