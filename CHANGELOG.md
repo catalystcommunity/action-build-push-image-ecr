@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/catalystsquad/action-build-push-image-ecr/compare/v1.2.1...v1.2.2) (2023-08-01)
+
+
+### Bug Fixes
+
+* allow disabling checkout step ([#9](https://github.com/catalystsquad/action-build-push-image-ecr/issues/9)) ([3655d30](https://github.com/catalystsquad/action-build-push-image-ecr/commit/3655d306862ace2bedf1d564a518c655646d3336))
+
 ## [1.2.1](https://github.com/catalystsquad/action-build-push-image-ecr/compare/v1.2.0...v1.2.1) (2023-05-19)
 
 
