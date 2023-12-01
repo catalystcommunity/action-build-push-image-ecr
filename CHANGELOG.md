@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/catalystsquad/action-build-push-image-ecr/compare/v1.2.2...v1.3.0) (2023-12-01)
+
+
+### Features
+
+* implement build-contexts option ([#10](https://github.com/catalystsquad/action-build-push-image-ecr/issues/10)) ([f4a2bf9](https://github.com/catalystsquad/action-build-push-image-ecr/commit/f4a2bf9dd82831667f5743e92f0e97b9a98e70da))
+
 ## [1.2.2](https://github.com/catalystsquad/action-build-push-image-ecr/compare/v1.2.1...v1.2.2) (2023-08-01)
 
 
