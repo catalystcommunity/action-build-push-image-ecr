@@ -13,7 +13,7 @@ Builds and pushs an image to an AWS ECR repository
 <!-- start usage -->
 
 ```yaml
-- uses: catalystsquad/action-build-push-image-ecr@undefined
+- uses: catalystcommunity/action-build-push-image-ecr@undefined
   with:
     # Name of ECR repository to push images to. Defaults to the Git repository's name.
     # Default: ${{ github.repository }}
@@ -126,7 +126,7 @@ jobs:
   build-push-image:
     runs-on: ubuntu-latest
     steps:
-      - uses: catalystsquad/action-build-push-image-ecr@v1
+      - uses: catalystcommunity/action-build-push-image-ecr@v1
         with:
           aws-access-key-id: ${{ secrets.AUTOMATION_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AUTOMATION_AWS_SECRET_ACCESS_KEY }}
